@@ -1,14 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:project/screens/drawer_screen.dart';
-import 'package:project/screens/first_screen.dart';
-import 'package:project/screens/grid_view_builder_screen.dart';
-import 'package:project/screens/home_screen.dart';
-import 'package:project/screens/image.dart';
-import 'package:project/screens/list_view_builder_screen.dart';
-import 'package:project/screens/list_view_screen.dart';
-import 'package:project/screens/login_screen.dart';
-import 'package:project/screens/splash.dart';
+
 
 
 Future<void> main() async {
@@ -37,7 +29,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepOrange),
       ),
-      home: Splash(),
+      home:
 
     );
   }
