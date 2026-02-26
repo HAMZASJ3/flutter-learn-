@@ -1,14 +1,12 @@
 {
+  "Already?": "Already have an account?",
+  "Confirm Password": "Confirm Password",
+  "Don't?": "Don't have an account?",
   "Email": "Email",
   "Login": "Login",
+  "Name": "Name",
   "Password": "Password",
-  "Welcome": "Welcome To Our Store",
-  "Don't?": "Don't have an account?",
+  "Remember Me": "Remember Me",
   "Sign": "Sign Up",
-  "eGiftly": "eGiftly",
-   "Name": "Name",
-   "Confirm Password": "Confirm Password",
-  "Already?": "Already have an account?",
-  "Remember Me": "Remember Me"
-
+  "eGiftly": "eGiftly"
 }

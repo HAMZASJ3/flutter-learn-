@@ -1,9 +1,14 @@
+import 'dart:convert';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:http/http.dart' as http;
 import 'package:project/screens/sign_up.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../constant/svg_constant.dart';
+import '../core/constant/svg_constant.dart';
+import '../core/utils/shared_preference_helper.dart';
+import 'home_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -16,6 +21,7 @@ class _LoginScreenState extends State<LoginScreen> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   bool? isRememberMe = false;
+  bool? isLoading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -94,23 +100,31 @@ class _LoginScreenState extends State<LoginScreen> {
                   ],
                 ),
                 SizedBox(height: 20),
-                ElevatedButton(
-                  onPressed: () async {
-                    final SharedPreferences prefs =
-                        await SharedPreferences.getInstance();
-                    await prefs.setBool('isRememberMe', isRememberMe!);
-                    final bool? Remember = prefs.getBool('isRememberMe');
-                    print("Remember Me value is : $Remember");
-                  },
-                  child: Text(
-                    "Login".tr(),
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 15,
+                if (isLoading!)
+                  CircularProgressIndicator()
+                else
+                  ElevatedButton(
+                    onPressed: () async {
+                      final SharedPreferences prefs =
+                          await SharedPreferences.getInstance();
+                      await prefs.setBool('isRememberMe', isRememberMe!);
+                      final bool? Remember = prefs.getBool('isRememberMe');
+                      print("Remember Me value is : $Remember");
+
+                      login(
+                        email: emailController.text,
+                        password: passwordController.text,
+                      );
+                    },
+                    child: Text(
+                      "Login".tr(),
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 15,
+                      ),
                     ),
                   ),
-                ),
                 SizedBox(height: 20),
 
                 Row(
@@ -134,5 +148,32 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
       ),
     );
+  }
+
+// API
+  login({required String email, required String password}) async {
+    isLoading = true;
+    setState(() {});
+    final response = await http.post(
+      Uri.parse("https://reqres.in/api/login"),
+      body: jsonEncode({"email": email, "password": password}),
+      headers: {"Content-Type": "application/json"},
+    );
+    isLoading = false;
+    setState(() {});
+    print(response.statusCode);
+    print(response.body);
+
+    if (response.statusCode == 200) {
+      var jsonBody = jsonDecode(response.body);
+      if (jsonBody["reslt"]) {
+        String accessToken = jsonBody["access_token"];
+        await SharedPreferencesHelper.saveString("accessToken", accessToken);
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => HomeScreen()),
+        );
+      }
+    }
   }
 }

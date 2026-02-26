@@ -1,14 +1,13 @@
 {
+  "Already?": "لديك حساب ",
+  "Confirm Password": "تأكيد كلمة السر",
+  "Don't?": "لايوجد لديك حساب؟",
   "Email": "البريد الالكتروني",
   "Login": "تسجيل دخول",
+  "Name": "الاسم",
   "Password": "كلمة السر",
-  "Welcome": "اهلا وسهلا بكم في متجرنا",
-  "Don't?": "لايوجد لديك حساب؟",
+  "Remember Me": "تذكرني",
   "Sign": "تسجيل الحساب ",
-  "eGiftly": "eGiftly",
-   "Name": "الاسم",
-  "Confirm Password": "تأكيد كلمة السر",
-  "Already?": "لديك حساب ",
-  "Remember Me": "تذكرني"
-
+  "Welcome": "اهلا وسهلا بكم في متجرنا",
+  "eGiftly": "eGiftly"
 }
