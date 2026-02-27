@@ -1,7 +1,6 @@
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 
-
 class DatabaseHelper {
   /// انشاء اوبجكت من الكلاس لمرة واحدة
   static final DatabaseHelper _instance = DatabaseHelper._internal();
@@ -14,18 +13,19 @@ class DatabaseHelper {
 
   Future<Database> get database async {
     // check if database exists
-    if (_database != null)
-      return _database!;
+    if (_database != null) return _database!;
 
     _database = await _initDatabase();
     return _database!;
   }
+
   Future<Database> _initDatabase() async {
     final String path = join(await getDatabasesPath(), 'items.db');
     return await openDatabase(path, version: 1, onCreate: _createDatabase);
   }
+
   Future<void> _createDatabase(Database db, int version) async {
-await db.execute('''
+    await db.execute('''
 CREATE TABLE items(
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   name TEXT NOT NULL,
@@ -33,3 +33,30 @@ CREATE TABLE items(
   price REAL NOT NULL
 ''');
   }
+
+  ///crud
+  Future<int> insertItem(Map<String, dynamic> item) async {
+    final db = await database;
+    return await db.insert('items', item);
+  }
+
+  Future<List<Map<String, dynamic>>> getAllItems() async {
+    final db = await database;
+    return await db.query('items');
+  }
+
+  Future<int> updateItem(Map<String, dynamic> item) async {
+    final db = await database;
+    return await db.update(
+      'items',
+      item,
+      where: 'id = ?',
+      whereArgs: [item['id']],
+    );
+  }
+
+  Future<int> deleteItem(int id) async {
+    final db = await database;
+    return await db.delete('items', where: 'id = ?', whereArgs: [id]);
+  }
+}
